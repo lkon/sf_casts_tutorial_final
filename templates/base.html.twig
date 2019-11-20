@@ -13,6 +13,9 @@
         <link rel="stylesheet" href="{{ asset('css/font-awesome.css') }}">
         <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         <link rel="stylesheet" href="{{ asset('css/login.css') }}">
+
+
+        {{ encore_entry_link_tags('app') }}
     {% endblock %}
 </head>
 <body>
@@ -90,6 +93,9 @@
     <script>
         $('.dropdown-toggle').dropdown();
     </script>
+
+
+    {{ encore_entry_script_tags('app') }}
 {% endblock %}
 </body>
 </html>
