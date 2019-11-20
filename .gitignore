@@ -17,3 +17,10 @@
 ###> symfony/web-server-bundle ###
 /.web-server-pid
 ###< symfony/web-server-bundle ###
+.idea/.gitignore
+.idea/composerJson.xml
+.idea/misc.xml
+.idea/modules.xml
+.idea/my_project_name.iml
+.idea/php.xml
+.idea/vcs.xml
