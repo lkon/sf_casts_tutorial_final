@@ -24,3 +24,9 @@
 .idea/my_project_name.iml
 .idea/php.xml
 .idea/vcs.xml
+
+###> liip/imagine-bundle ###
+/public/media/cache/
+###< liip/imagine-bundle ###
+.idea/symfony2.xml
+public/uploads/

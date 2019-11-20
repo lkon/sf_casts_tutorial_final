@@ -1,6 +1,10 @@
 doctrine:
     dbal:
-        url: '%env(resolve:DATABASE_URL)%'
+        # configure these for your database server
+        # use postgresql for PostgreSQL
+        # use sqlite for SQLite
+        driver: 'pdo_mysql'
+        server_version: '5.7'
 
         # IMPORTANT: You MUST configure your db driver and server version,
         # either here or in the DATABASE_URL env var (see .env file)
@@ -10,9 +14,12 @@ doctrine:
         # Only needed for MySQL (ignored otherwise)
         charset: utf8mb4
         default_table_options:
+            charset: utf8mb4
             collate: utf8mb4_unicode_ci
+
+        url: '%env(resolve:DATABASE_URL)%'
     orm:
-        auto_generate_proxy_classes: true
+        auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware
         auto_mapping: true
         mappings:
