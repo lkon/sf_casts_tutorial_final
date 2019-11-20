@@ -1,0 +1,17 @@
+{
+  "repository": "git@github.com:lkon/sf_casts_tutorial_final.git",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production --progress"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@symfony/webpack-encore": "^0.28.1",
+    "core-js": "^3.4.1",
+    "webpack-notifier": "^1.8.0"
+  }
+}
