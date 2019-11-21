@@ -11,6 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\NotBlank;
@@ -27,7 +28,7 @@ class ImagePostController extends AbstractController
      */
     public function list(ImagePostRepository $repository)
     {
-        $posts = $repository->findBy([],['createdAt' => 'DESC']);
+        $posts = $repository->findBy([], ['createdAt' => 'DESC']);
 
         return $this->json([
             'items' => $posts,
@@ -77,6 +78,37 @@ class ImagePostController extends AbstractController
         // indicates that the request has succeeded and has
         // led to the creation of a resource.
         return $this->json($imagePost, 201);
+    }
+
+    /**
+     * @Route(
+     *     "/api/images/{id}",
+     *     methods={"DELETE"}
+     * )
+     */
+    public function delete(
+        ImagePost $imagePost,
+        PhotoUploaderManager $uploaderManager,
+        EntityManagerInterface $em
+    )
+    {
+        $uploaderManager->deleteImage($imagePost->getFilename());
+        $em->remove($imagePost);
+        $em->flush();
+
+        return new Response(null, 204);
+    }
+
+    /**
+     * @Route(
+     *     "/api/images/{id}",
+     *     name="get_image_post_item",
+     *     methods={"GET"}
+     * )
+     */
+    public function getItem(ImagePost $imagePost)
+    {
+        return $this->json($imagePost);
     }
 
     protected function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse

@@ -5,7 +5,9 @@
         ></image-uploader>
         <image-list
                 :images="images"
-                :info="info"></image-list>
+                :info="info"
+                v-on:delete-image="onImageDelete"
+        ></image-list>
     </div>
 </template>
 
@@ -35,6 +37,13 @@
         methods: {
             onNewImageUploaded(image) {
                 this.images.unshift(image);
+            },
+            onImageDelete(image) {
+                axios
+                    .delete(image['@id'])
+                    .then(() => {
+                        this.$delete(this.images, this.images.indexOf(image));
+                    });
             }
         }
     };
