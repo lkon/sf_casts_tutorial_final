@@ -29,11 +29,6 @@
                 info: null
             };
         },
-        mounted() {
-            axios
-                .get('/api/images')
-                .then(response => (this.images = response.data.items));
-        },
         methods: {
             onNewImageUploaded(image) {
                 this.images.unshift(image);
@@ -44,8 +39,22 @@
                     .then(() => {
                         this.$delete(this.images, this.images.indexOf(image));
                     });
+            },
+            fetchImagesData() {
+                axios
+                    .get('/api/images')
+                    .then(response => (this.images = response.data.items));
             }
-        }
+        },
+        mounted() {
+            this.fetchImagesData();
+        },
+        // created() {
+        //     this.timer = setInterval(this.fetchImagesData, 2 * 1000);
+        // },
+        // beforeDestroy() {
+        //     clearInterval(this.timer);
+        // }
     };
 </script>
 
