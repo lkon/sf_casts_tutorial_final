@@ -4,6 +4,7 @@
 namespace App\Service;
 
 
+use App\Entity\ImagePost;
 use Gedmo\Sluggable\Util\Urlizer;
 use League\Flysystem\AdapterInterface;
 use League\Flysystem\FilesystemInterface;
@@ -13,10 +14,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class PhotoUploaderManager
 {
     private $filesystem;
+    private $publicAssetBaseUrl;
 
-    public function __construct(FilesystemInterface $photoFilesystem)
+    public function __construct(FilesystemInterface $photoFilesystem, string $publicAssetBaseUrl)
     {
         $this->filesystem = $photoFilesystem;
+        $this->publicAssetBaseUrl = $publicAssetBaseUrl;
     }
 
     public function uploadImage(File $file): string
@@ -46,5 +49,10 @@ class PhotoUploaderManager
             fclose($stream);
         }
         return $newFilename;
+    }
+
+    public function getPublicPath(ImagePost $imagePost): string
+    {
+        return $this->publicAssetBaseUrl.'/'.$imagePost->getFilename();
     }
 }

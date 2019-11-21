@@ -45,7 +45,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         UserPasswordEncoderInterface $userPasswordEncoder
     )
     {
-        dump('__construct');
+        //dump('__construct');
 
         $this->userRepository = $userRepository;
         $this->router = $router;
@@ -55,14 +55,14 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        dump('supports');
+        //dump('supports');
         return $request->attributes->get('_route') === 'app_login'
             && $request->isMethod('POST');
     }
 
     public function getCredentials(Request $request)
     {
-        dump('getCredentials');
+        //dump('getCredentials');
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
@@ -79,7 +79,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-        dump('getUser');
+        //dump('getUser');
         $token = new CsrfToken('authenticate', $credentials['csrf_token']);
         if (!$this->csrfTokenManager->isTokenValid($token)) {
             throw new InvalidCsrfTokenException();
@@ -90,18 +90,18 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
     public function checkCredentials($credentials, UserInterface $user)
     {
-        dump('checkCredentials');
+        //dump('checkCredentials');
         return $this->userPasswordEncoder->isPasswordValid($user, $credentials['password']);
     }
 
 //    public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
 //    {
-//        dump('onAuthenticationFailure');
+//        //dump('onAuthenticationFailure');
 //    }
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, $providerKey)
     {
-        dump('onAuthenticationSuccess');
+        //dump('onAuthenticationSuccess');
         if($targetPath = $this->getTargetPath($request->getSession(), $providerKey)){
             return new RedirectResponse($targetPath);
         }
@@ -110,12 +110,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 
 //    public function start(Request $request, AuthenticationException $authException = null)
 //    {
-//        dump('start');
+//        //dump('start');
 //    }
 
 //    public function supportsRememberMe()
 //    {
-//        dump('supportsRememberMe');
+//        //dump('supportsRememberMe');
 //        return true;
 //    }
 
@@ -126,7 +126,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
      */
     protected function getLoginUrl()
     {
-        dump('getLoginUrl');
+        //dump('getLoginUrl');
         return $this->router->generate('app_login');
     }
 }

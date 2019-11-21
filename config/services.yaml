@@ -26,6 +26,8 @@ services:
             $publicUploadsFilesystem: '@oneup_flysystem.public_uploads_filesystem_filesystem'
             $privateUploadsFilesystem: '@oneup_flysystem.private_uploads_filesystem_filesystem'
 
+            $publicAssetBaseUrl: '/uploads/images'
+
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
     App\:

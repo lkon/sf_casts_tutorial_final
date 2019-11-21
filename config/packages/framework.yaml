@@ -16,5 +16,5 @@ framework:
     log: true
 
   profiler:
-#        enabled: false
-#        collect: false
+        enabled: false
+        collect: false
