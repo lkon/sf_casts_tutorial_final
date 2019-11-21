@@ -1,6 +1,6 @@
 <template>
     <li>
-        <a :href="url">
+        <a :href="url" target="_blank" rel="nofollow">
             <img
                 :src="url"
                 :alt="originalFilename"

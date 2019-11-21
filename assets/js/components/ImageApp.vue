@@ -1,10 +1,12 @@
 <template>
-<div class="">
-    <image-uploader></image-uploader>
-    <image-list
-            :images="images"
-            :info="info"></image-list>
-</div>
+    <div class="">
+        <image-uploader
+                v-on:new-image="onNewImageUploaded"
+        ></image-uploader>
+        <image-list
+                :images="images"
+                :info="info"></image-list>
+    </div>
 </template>
 
 
@@ -19,16 +21,21 @@
             ImageUploader,
             ImageList
         },
-        data () {
+        data() {
             return {
                 images: [],
                 info: null
-            }
+            };
         },
         mounted() {
             axios
                 .get('/api/images')
-                .then(response => (this.images = response.data.items))
+                .then(response => (this.images = response.data.items));
+        },
+        methods: {
+            onNewImageUploaded(image) {
+                this.images.unshift(image);
+            }
         }
     };
 </script>

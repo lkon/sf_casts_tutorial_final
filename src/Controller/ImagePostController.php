@@ -27,7 +27,7 @@ class ImagePostController extends AbstractController
      */
     public function list(ImagePostRepository $repository)
     {
-        $posts = $repository->findAll();
+        $posts = $repository->findBy([],['createdAt' => 'DESC']);
 
         return $this->json([
             'items' => $posts,
