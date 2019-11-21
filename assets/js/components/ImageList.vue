@@ -6,6 +6,7 @@
               :key="image.id"
               :url="image.url"
               :original-filename="image.originalFilename"
+              :ponka-added-at="image.ponkaAddedAt"
               v-on:delete-image="onDeleteImage(image)"
       ></image-item>
       </transition-group>

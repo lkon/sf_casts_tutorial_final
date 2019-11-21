@@ -6,14 +6,22 @@
                 :alt="originalFilename"
             />
         </a>
+        <span v-if="this.ponkaAddedAt">
+            Ponka visited your photo {{ ponkaAddedAtAgo() }}
+        </span>
+        <span v-else>
+            Ponka is napping. Check back soon.
+        </span>
         <button @click="onDeleteClick">x</button>
     </li>
 </template>
 
 <script>
+    import moment from 'moment';
+
     export default {
         name: 'ImageItem',
-        props: ['url', 'originalFilename'],
+        props: ['url', 'originalFilename', 'ponkaAddedAt'],
         data() {
             return {
                 isDeleting: false
@@ -23,6 +31,9 @@
             onDeleteClick() {
                 this.$emit('delete-image');
                 this.isDeleting = true;
+            },
+            ponkaAddedAtAgo(){
+                return moment(this.ponkaAddedAt).fromNow();
             }
         }
     };

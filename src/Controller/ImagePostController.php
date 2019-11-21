@@ -72,9 +72,9 @@ class ImagePostController extends AbstractController
         $em->persist($imagePost);
 
         $updatedContents = $ponkaficator->ponkafy(
-            $fileManager->read($newFilename)
+            $fileManager->read($imagePost->getFilename())
         );
-        $fileManager->update($newFilename, $updatedContents);
+        $fileManager->update($imagePost->getFilename(), $updatedContents);
 
         $imagePost->markAsPonkaAdded();
 
