@@ -7,7 +7,7 @@
             />
         </a>
         <span v-if="this.ponkaAddedAt">
-            Ponka visited your photo {{ ponkaAddedAtAgo() }}
+            Ponka visited your photo {{ ponkaAddedAgo }}
         </span>
         <span v-else>
             Ponka is napping. Check back soon.
@@ -24,7 +24,8 @@
         props: ['url', 'originalFilename', 'ponkaAddedAt'],
         data() {
             return {
-                isDeleting: false
+                isDeleting: false,
+                ponkaAddedAgo: null
             };
         },
         methods: {
@@ -32,9 +33,16 @@
                 this.$emit('delete-image');
                 this.isDeleting = true;
             },
-            ponkaAddedAtAgo(){
-                return moment(this.ponkaAddedAt).fromNow();
+            updatePonkaAddedAtAgo() {
+                this.ponkaAddedAgo = moment(this.ponkaAddedAt).fromNow();
             }
+        },
+        created() {
+            this.updatePonkaAddedAtAgo();
+            this.timer = setInterval(this.updatePonkaAddedAtAgo, 60 * 1000);
+        },
+        beforeDestroy() {
+            clearInterval(this.timer);
         }
     };
 </script>
@@ -43,6 +51,7 @@
     img {
         width: 100px;
     }
+
     .deleting {
         opacity: .3;
     }
