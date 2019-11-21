@@ -6,6 +6,7 @@ namespace App\Service;
 
 use App\Entity\ImagePost;
 use Doctrine\ORM\EntityManagerInterface;
+use Intervention\Image\Constraint;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
 use League\Flysystem\FilesystemInterface;
@@ -30,14 +31,26 @@ class PhotoPonkaficator
     public function ponkafy(ImagePost $imagePost)
     {
         /** @var Image $newImage */
-        $newImage = $this->imageManager->make(
-            $this->photoFilesystem->readStream(
-                $imagePost->getFilename()
-            )
-        );
+        $newImage = $this->imageManager
+            ->make(
+                $this->photoFilesystem->readStream(
+                    $imagePost->getFilename()
+                )
+            );
+
+        $ponkaMark = $this->imageManager
+            ->make(__DIR__.'/../../assets/ponka/alien-profile.png');
+
+        $ponkaMarkWidth = $newImage->width() * .2;
+        $ponkaMarkHeight = $newImage->height() * .4;
+
+        $ponkaMark->resize($ponkaMarkWidth, $ponkaMarkHeight, function (Constraint $constraint) {
+            $constraint->aspectRatio();
+            $constraint->upsize();
+        });
 
         $newImage = $newImage->insert(
-            file_get_contents(__DIR__.'/../../assets/ponka/alien-profile.png'),
+            $ponkaMark,
             'bottom-left',
             50, 50
         );
