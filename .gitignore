@@ -1,4 +1,5 @@
 
+
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -37,3 +38,4 @@ public/uploads/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
+public/.DS_Store

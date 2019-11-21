@@ -1,9 +1,11 @@
 <template>
     <li>
-        <img
+        <a :href="url">
+            <img
                 :src="url"
                 :alt="originalFilename"
-        />
+            />
+        </a>
     </li>
 </template>
 
