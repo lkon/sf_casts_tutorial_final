@@ -7,6 +7,7 @@ namespace App\Service;
 use Intervention\Image\Constraint;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
+use Symfony\Component\Finder\Finder;
 
 class PhotoPonkaficator
 {
@@ -26,7 +27,7 @@ class PhotoPonkaficator
             ->make($imageContents);
 
         $ponkaMark = $this->imageManager
-            ->make(__DIR__.'/../../assets/ponka/alien-profile.png');
+            ->make($this->getRandomPonkaFilename());
 
         $ponkaMarkWidth = $newImage->width() * .2;
         $ponkaMarkHeight = $newImage->height() * .4;
@@ -46,5 +47,18 @@ class PhotoPonkaficator
         sleep(2);
 
         return (string)$newImage->encode();
+    }
+
+    private function getRandomPonkaFilename(): string
+    {
+        $finder = new Finder();
+
+        $finder
+            ->in(__DIR__.'/../../assets/ponka')
+            ->files();
+
+        $ponkaFiles = iterator_to_array($finder->getIterator());
+
+        return array_rand($ponkaFiles);
     }
 }
