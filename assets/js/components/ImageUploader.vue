@@ -29,7 +29,8 @@
         },
         methods:{
             onDropzoneSuccess(file, resp){
-                this.$emit('new-image', resp)
+                this.$emit('new-image', resp);
+                this.$refs.myVueDropzone.removeFile(file);
             }
         }
     }
