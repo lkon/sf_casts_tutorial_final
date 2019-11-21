@@ -10,9 +10,6 @@
               v-on:delete-image="onDeleteImage(image)"
       ></image-item>
       </transition-group>
-    <div>
-      {{ info }}
-    </div>
   </div>
 </template>
 
@@ -21,7 +18,7 @@
 
   export default {
     name: 'ImageList',
-    props: ['images', 'info'],
+    props: ['images'],
     components: {
       ImageItem,
     },
@@ -33,12 +30,15 @@
   }
 </script>
 
-<style>
-  .list-enter-active, .list-leave-active {
-    transition: all 1s;
-  }
-  .list-enter, .list-leave-to {
-    opacity: 0;
-    transform: translateY(30px);
-  }
+<style scoped lang="scss">
+    .list-enter-active, .list-leave-active {
+      transition: all 1s;
+    }
+    .list-enter, .list-leave-to {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    ul {
+        list-style: none
+    }
 </style>

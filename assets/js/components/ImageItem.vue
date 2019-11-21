@@ -1,9 +1,11 @@
 <template>
-    <li :class="{deleting: isDeleting}">
+    <li :class="{deleting: isDeleting}" class="text-white">
+        <button title="clear image" @click="onDeleteClick" class="btn btn-default font-weight-bold text-white">X
+        </button>
         <a :href="url" target="_blank" rel="nofollow">
             <img
-                    :src="url"
-                    :alt="originalFilename"
+                :src="url"
+                :alt="originalFilename"
             />
         </a>
         <span v-if="this.ponkaAddedAt">
@@ -12,7 +14,6 @@
         <span v-else>
             Ponka is napping. Check back soon.
         </span>
-        <button @click="onDeleteClick">x</button>
     </li>
 </template>
 
@@ -52,12 +53,18 @@
     };
 </script>
 
-<style scoped>
+<style scoped lang="scss">
     img {
         width: 100px;
+        border-radius: 5px;
     }
 
     .deleting {
         opacity: .3;
     }
+
+    button {
+        cursor: pointer;
+    }
+
 </style>
