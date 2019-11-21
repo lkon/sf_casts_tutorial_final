@@ -2,8 +2,8 @@
     <li :class="{deleting: isDeleting}">
         <a :href="url" target="_blank" rel="nofollow">
             <img
-                :src="url"
-                :alt="originalFilename"
+                    :src="url"
+                    :alt="originalFilename"
             />
         </a>
         <span v-if="this.ponkaAddedAt">
@@ -35,6 +35,11 @@
             },
             updatePonkaAddedAtAgo() {
                 this.ponkaAddedAgo = moment(this.ponkaAddedAt).fromNow();
+            }
+        },
+        watch: {
+            ponkaAddedAt() {
+                this.updatePonkaAddedAtAgo();
             }
         },
         created() {
