@@ -1,10 +1,6 @@
 import Vue from 'vue';
-import ImageList from './components/ImageList';
-import ImageUploader from './components/ImageUploader';
-
-Vue.component('image-list', ImageList);
-Vue.component('image-uploader', ImageUploader);
+import ImageApp from './components/ImageApp';
 
 const app = new Vue({
-    el: '#images-app'
-});
+    render: h => h(ImageApp)
+}).$mount('#images-app');

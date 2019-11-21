@@ -15,25 +15,13 @@
 </template>
 
 <script>
-  import axios from 'axios';
   import ImageItem from './ImageItem';
 
   export default {
+    name: 'ImageList',
+    props: ['images', 'info'],
     components: {
       ImageItem,
-    },
-    data () {
-      return {
-        images: [
-          {id: 1}
-        ],
-        info: null
-      }
-    },
-    mounted() {
-      axios
-          .get('/api/images')
-          .then(response => (this.images = response.data.items))
     }
   }
 </script>
