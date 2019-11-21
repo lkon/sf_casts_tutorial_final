@@ -30,7 +30,7 @@ class ImagePostController extends AbstractController
     {
         $posts = $repository->findBy([], ['createdAt' => 'DESC']);
 
-        return $this->json([
+        return $this->toJson([
             'items' => $posts,
         ]);
     }
@@ -59,7 +59,7 @@ class ImagePostController extends AbstractController
         ]);
 
         if ($violations->count() > 0) {
-            return $this->json($violations, 400);
+            return $this->toJson($violations, 400);
         }
 
         $newFilename = $fileManager->uploadImage($imageFile);
@@ -84,7 +84,7 @@ class ImagePostController extends AbstractController
         //The HTTP 201 Created success status response code
         // indicates that the request has succeeded and has
         // led to the creation of a resource.
-        return $this->json($imagePost, 201);
+        return $this->toJson($imagePost, 201);
     }
 
     /**
@@ -115,16 +115,16 @@ class ImagePostController extends AbstractController
      */
     public function getItem(ImagePost $imagePost)
     {
-        return $this->json($imagePost);
+        return $this->toJson($imagePost);
     }
 
-    protected function json($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
+    private function toJson($data, int $status = 200, array $headers = [], array $context = []): JsonResponse
     {
         // add the image:output group by default
         if (!isset($context['groups'])) {
             $context['groups'] = ['image:output'];
         }
 
-        return parent::json($data, $status, $headers, $context);
+        return $this->json($data, $status, $headers, $context);
     }
 }
