@@ -78,6 +78,7 @@ class ImagePostController extends AbstractController
 
         $imagePost->markAsPonkaAdded();
 
+        $em->persist($imagePost);
         $em->flush();
 
         //The HTTP 201 Created success status response code
