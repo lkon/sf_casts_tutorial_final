@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ImagePost;
 use App\Repository\ImagePostRepository;
+use App\Service\PhotoPonkaficator;
 use App\Service\PhotoUploaderManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -44,7 +45,8 @@ class ImagePostController extends AbstractController
         Request $request,
         ValidatorInterface $validator,
         PhotoUploaderManager $photoUploader,
-        EntityManagerInterface $em
+        EntityManagerInterface $em,
+        PhotoPonkaficator $ponkaficator
     )
     {
         /** @var UploadedFile $imageFile */
@@ -65,6 +67,8 @@ class ImagePostController extends AbstractController
         $imagePost
             ->setFilename($newFilename)
             ->setOriginalFilename($imageFile->getClientOriginalName());
+
+        $ponkaficator->ponkafy($imagePost);
 
         $em->persist($imagePost);
         $em->flush();
