@@ -11,7 +11,7 @@ use League\Flysystem\FilesystemInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class PhotoUploaderManager
+class PhotoFileManager
 {
     private $filesystem;
     private $publicAssetBaseUrl;
@@ -51,11 +51,21 @@ class PhotoUploaderManager
         return $newFilename;
     }
 
-    public function deleteImage(string $filename):  void
+    public function deleteImage(string $filename): void
     {
         sleep(3);
 
-        $this->filesystem ->delete($filename);
+        $this->filesystem->delete($filename);
+    }
+
+    public function read(string $filename): string
+    {
+        return $this->filesystem->read($filename);
+    }
+
+    public function update(string $filename, string $updatedContents): void
+    {
+        $this->filesystem->update($filename, $updatedContents);
     }
 
     public function getPublicPath(ImagePost $imagePost): string

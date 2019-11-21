@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\ImagePost;
 use App\Repository\ImagePostRepository;
 use App\Service\PhotoPonkaficator;
-use App\Service\PhotoUploaderManager;
+use App\Service\PhotoFileManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -45,7 +45,7 @@ class ImagePostController extends AbstractController
     public function create(
         Request $request,
         ValidatorInterface $validator,
-        PhotoUploaderManager $photoUploader,
+        PhotoFileManager $fileManager,
         EntityManagerInterface $em,
         PhotoPonkaficator $ponkaficator
     )
@@ -62,16 +62,22 @@ class ImagePostController extends AbstractController
             return $this->json($violations, 400);
         }
 
-        $newFilename = $photoUploader->uploadImage($imageFile);
+        $newFilename = $fileManager->uploadImage($imageFile);
 
         $imagePost = new ImagePost();
         $imagePost
             ->setFilename($newFilename)
             ->setOriginalFilename($imageFile->getClientOriginalName());
 
-        $ponkaficator->ponkafy($imagePost);
-
         $em->persist($imagePost);
+
+        $updatedContents = $ponkaficator->ponkafy(
+            $fileManager->read($newFilename)
+        );
+        $fileManager->update($newFilename, $updatedContents);
+
+        $imagePost->markAsPonkaAdded();
+
         $em->flush();
 
         //The HTTP 201 Created success status response code
@@ -88,11 +94,11 @@ class ImagePostController extends AbstractController
      */
     public function delete(
         ImagePost $imagePost,
-        PhotoUploaderManager $uploaderManager,
+        PhotoFileManager $fileManager,
         EntityManagerInterface $em
     )
     {
-        $uploaderManager->deleteImage($imagePost->getFilename());
+        $fileManager->deleteImage($imagePost->getFilename());
         $em->remove($imagePost);
         $em->flush();
 

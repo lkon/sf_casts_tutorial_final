@@ -4,39 +4,26 @@
 namespace App\Service;
 
 
-use App\Entity\ImagePost;
-use Doctrine\ORM\EntityManagerInterface;
 use Intervention\Image\Constraint;
 use Intervention\Image\Image;
 use Intervention\Image\ImageManager;
-use League\Flysystem\FilesystemInterface;
 
 class PhotoPonkaficator
 {
-    private $em;
     private $imageManager;
-    private $photoFilesystem;
 
     public function __construct(
-        EntityManagerInterface $em,
-        ImageManager $imageManager,
-        FilesystemInterface $photoFilesystem
+        ImageManager $imageManager
     )
     {
-        $this->em = $em;
         $this->imageManager = $imageManager;
-        $this->photoFilesystem = $photoFilesystem;
     }
 
-    public function ponkafy(ImagePost $imagePost)
+    public function ponkafy(string $imageContents): string
     {
         /** @var Image $newImage */
         $newImage = $this->imageManager
-            ->make(
-                $this->photoFilesystem->readStream(
-                    $imagePost->getFilename()
-                )
-            );
+            ->make($imageContents);
 
         $ponkaMark = $this->imageManager
             ->make(__DIR__.'/../../assets/ponka/alien-profile.png');
@@ -52,17 +39,12 @@ class PhotoPonkaficator
         $newImage = $newImage->insert(
             $ponkaMark,
             'bottom-left',
-            50, 50
+            (int)($newImage->width() * .05),
+            (int)($newImage->height() * .05)
         );
 
-        $this->photoFilesystem->update(
-            $imagePost->getFilename(),
-            $newImage->encode()
-        );
-
-        $imagePost->markAsPonkaAdded();
         sleep(2);
 
-        $this->em->flush();
+        return (string)$newImage->encode();
     }
 }
